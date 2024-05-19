@@ -9,16 +9,18 @@ from app.hotels.schemas import SHotelsWithRoomsLeft, SHotels
 
 router = APIRouter(
     prefix="/hotels",
-    tags=['Hotels'],
+    tags=["Hotels"],
 )
 
 
 @router.get("/{location}")
 @cache(expire=30)
 async def get_hotels_by_location_and_time(
-        location: str,
-        date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
-        date_to: date = Query(..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"),
+    location: str,
+    date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
+    date_to: date = Query(
+        ..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"
+    ),
 ) -> list[SHotelsWithRoomsLeft | None]:
     await HotelDAO.check_date(date_from, date_to)
 

@@ -4,12 +4,15 @@ from app.bookings.dao import BookingDAO
 from datetime import datetime
 
 
-@pytest.mark.parametrize("user_id,room_id", [
-    (2, 2),
-    (2, 3),
-    (1, 4),
-    (1, 4),
-])
+@pytest.mark.parametrize(
+    "user_id,room_id",
+    [
+        (2, 2),
+        (2, 3),
+        (1, 4),
+        (1, 4),
+    ],
+)
 async def test_booking_crud(user_id, room_id):
     new_booking = await BookingDAO().add(
         user_id=user_id,
@@ -25,10 +28,7 @@ async def test_booking_crud(user_id, room_id):
 
     assert new_booking is not None
 
-    await BookingDAO.delete(
-        model_id=new_booking.id,
-        user_id=user_id
-    )
+    await BookingDAO.delete(model_id=new_booking.id, user_id=user_id)
 
     deleted_booking = await BookingDAO.find_one_or_none(id=new_booking.id)
     assert deleted_booking is None

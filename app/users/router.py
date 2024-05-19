@@ -7,10 +7,7 @@ from app.users.dependencies import get_current_user
 from app.users.models import Users
 from app.users.schemas import SUserAuth
 
-router = APIRouter(
-    prefix="/auth",
-    tags=["Auth & Users"]
-)
+router = APIRouter(prefix="/auth", tags=["Auth & Users"])
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)

@@ -12,21 +12,25 @@ from app.users.models import Users
 
 router = APIRouter(
     prefix="/bookings",
-    tags=['Bookings'],
+    tags=["Bookings"],
 )
 
 
 @router.get("")
-async def get_bookings_with_rooms(user: Users = Depends(get_current_user)) -> list[SExtendedBookings]:
+async def get_bookings_with_rooms(
+    user: Users = Depends(get_current_user),
+) -> list[SExtendedBookings]:
     return await BookingDAO.get_external_bookings(user_id=user.id)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def add_booking(
-        room_id: int,
-        date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
-        date_to: date = Query(..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"),
-        user: Users = Depends(get_current_user),
+    room_id: int,
+    date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
+    date_to: date = Query(
+        ..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"
+    ),
+    user: Users = Depends(get_current_user),
 ):
     await BookingDAO.check_date(date_from, date_to)
 

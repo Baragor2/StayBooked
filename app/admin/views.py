@@ -16,7 +16,10 @@ class UserAdmin(ModelView, model=Users):
 
 
 class BookingsAdmin(ModelView, model=Bookings):
-    column_list = [column.name for column in Bookings.__table__.columns] + [Bookings.user, Bookings.rooms]
+    column_list = [column.name for column in Bookings.__table__.columns] + [
+        Bookings.user,
+        Bookings.rooms,
+    ]
     name = "Бронирование"
     name_plural = "Бронирования"
     icon = "fa-solid fa-book"
@@ -30,7 +33,10 @@ class HotelsAdmin(ModelView, model=Hotels):
 
 
 class RoomsAdmin(ModelView, model=Rooms):
-    column_list = [column.name for column in Rooms.__table__.columns] + [Rooms.hotel, Rooms.booking]
+    column_list = [column.name for column in Rooms.__table__.columns] + [
+        Rooms.hotel,
+        Rooms.booking,
+    ]
     name = "Номер"
     name_plural = "Номера"
     icon = "fa-solid fa-bed"

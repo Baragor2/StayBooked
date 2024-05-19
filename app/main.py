@@ -23,7 +23,11 @@ from redis import asyncio as aioredis
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="app/static"), "static", )
+app.mount(
+    "/static",
+    StaticFiles(directory="app/static"),
+    "static",
+)
 
 
 app.include_router(router_users)
@@ -44,17 +48,23 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
-    allow_headers=["Content-Type", "Authorization",
-                   "Set-Cookie", "Access-Control-Allow-Headers",
-                   "Access-Control-Allow-Origin"],
+    allow_headers=[
+        "Content-Type",
+        "Authorization",
+        "Set-Cookie",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Origin",
+    ],
 )
 
 
 @app.on_event("startup")
 def startup():
-    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}",
-                              encoding="utf-8",
-                              decode_responses=True)
+    redis = aioredis.from_url(
+        f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}",
+        encoding="utf-8",
+        decode_responses=True,
+    )
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 

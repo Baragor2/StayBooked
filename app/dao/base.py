@@ -3,7 +3,10 @@ from datetime import date
 from sqlalchemy import select, insert
 
 from app.database import async_session_maker
-from app.exceptions import DateToLessThenDateFromException, BookingTimeIsMoreThanThirtyDaysException
+from app.exceptions import (
+    DateToLessThenDateFromException,
+    BookingTimeIsMoreThanThirtyDaysException,
+)
 
 
 class BaseDAO:
@@ -26,18 +29,20 @@ class BaseDAO:
     @classmethod
     async def find_all(cls, **filter_by):
         async with async_session_maker() as session:
-            query = select(cls.model,
-                           cls.model.__table__.columns,
-                           ).filter_by(**filter_by)
+            query = select(
+                cls.model,
+                cls.model.__table__.columns,
+            ).filter_by(**filter_by)
             result = await session.execute(query)
             return result.mappings().all()
 
     @classmethod
     async def find_like(cls, column: str, value: str):
         async with async_session_maker() as session:
-            query = select(cls.model,
-                           cls.model.__table__.columns,
-                           ).where(getattr(cls.model, column).like(f"%{value}%"))
+            query = select(
+                cls.model,
+                cls.model.__table__.columns,
+            ).where(getattr(cls.model, column).like(f"%{value}%"))
             result = await session.execute(query)
             return result.mappings().all()
 

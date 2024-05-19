@@ -5,10 +5,10 @@ from app.database import Base
 
 
 class Rooms(Base):
-    __tablename__ = 'rooms'
+    __tablename__ = "rooms"
 
     id = Column(Integer, primary_key=True)
-    hotel_id = Column(Integer, ForeignKey('hotels.id'))
+    hotel_id = Column(Integer, ForeignKey("hotels.id"))
     name = Column(String, nullable=False)
     description = Column(String, nullable=False)
     price = Column(Integer, nullable=False)

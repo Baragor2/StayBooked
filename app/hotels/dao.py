@@ -1,6 +1,5 @@
 from datetime import date
 
-
 from app.dao.base import BaseDAO
 from app.hotels.models import Hotels
 from app.hotels.rooms.dao import RoomDAO
