@@ -1,5 +1,5 @@
-from sqladmin.authentication import AuthenticationBackend
 from fastapi import status
+from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
 

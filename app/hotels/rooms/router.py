@@ -2,9 +2,9 @@ from datetime import date, datetime
 
 from fastapi import Query
 
+from app.hotels.rooms.dao import RoomDAO
 from app.hotels.rooms.schemas import SExtendedRooms
 from app.hotels.router import router
-from app.hotels.rooms.dao import RoomDAO
 
 
 @router.get("/{hotel_id}/rooms")

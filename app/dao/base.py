@@ -1,12 +1,10 @@
 from datetime import date
 
-from sqlalchemy import select, insert
+from sqlalchemy import insert, select
 
 from app.database import async_session_maker
-from app.exceptions import (
-    DateToLessThenDateFromException,
-    BookingTimeIsMoreThanThirtyDaysException,
-)
+from app.exceptions import (BookingTimeIsMoreThanThirtyDaysException,
+                            DateToLessThenDateFromException)
 
 
 class BaseDAO:

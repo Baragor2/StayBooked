@@ -1,13 +1,14 @@
 from datetime import date
 
-from sqlalchemy import select, and_, insert, delete
+from sqlalchemy import and_, delete, insert, select
 
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
-from app.exceptions import BookingIsNotPresentException, RoomCannotBeBookedException
-from app.hotels.rooms.models import Rooms
+from app.exceptions import (BookingIsNotPresentException,
+                            RoomCannotBeBookedException)
 from app.hotels.rooms.dao import RoomDAO
+from app.hotels.rooms.models import Rooms
 
 
 class BookingDAO(BaseDAO):

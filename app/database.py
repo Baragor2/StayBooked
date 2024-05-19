@@ -4,7 +4,6 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
 
-
 DB_USER = settings.DB_USER
 DB_PASS = settings.DB_PASS
 DB_HOST = settings.DB_HOST
