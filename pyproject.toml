@@ -14,3 +14,6 @@ line_length = 88
 [tool.autoflake]
 check_diff = true
 imports = ["sqlalchemy", "app"]
+
+[tool.pyright]
+include = ["app"]
