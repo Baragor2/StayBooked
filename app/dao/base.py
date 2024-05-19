@@ -1,6 +1,9 @@
+from datetime import date
+
 from sqlalchemy import select, insert
 
 from app.database import async_session_maker
+from app.exceptions import DateToLessThenDateFromException, BookingTimeIsMoreThanThirtyDaysException
 
 
 class BaseDAO:
@@ -44,3 +47,10 @@ class BaseDAO:
             query = insert(cls.model).values(**data)
             await session.execute(query)
             await session.commit()
+
+    @staticmethod
+    async def check_date(date_from: date, date_to: date):
+        if date_to <= date_from:
+            raise DateToLessThenDateFromException
+        elif (date_to - date_from).days > 30:
+            raise BookingTimeIsMoreThanThirtyDaysException

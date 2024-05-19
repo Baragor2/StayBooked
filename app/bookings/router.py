@@ -1,11 +1,10 @@
-from datetime import date
+from datetime import date, timedelta, datetime
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
 from pydantic import parse_obj_as
 
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SExtendedBookings, SBookingsShort
-from app.exceptions import RoomCannotBeBookedException
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
@@ -24,12 +23,14 @@ async def get_bookings_with_rooms(user: Users = Depends(get_current_user)) -> li
 
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def add_booking(
-        room_id: int, date_from: date, date_to: date,
+        room_id: int,
+        date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
+        date_to: date = Query(..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"),
         user: Users = Depends(get_current_user),
 ):
+    await BookingDAO.check_date(date_from, date_to)
+
     booking = await BookingDAO.add(user.id, room_id, date_from, date_to)
-    if not booking:
-        raise RoomCannotBeBookedException
 
     booking = parse_obj_as(SBookingsShort, booking).dict()
 
@@ -40,4 +41,3 @@ async def add_booking(
 @router.delete("/{booking_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_booking(booking_id: int, user: Users = Depends(get_current_user)):
     await BookingDAO.delete(booking_id, user.id)
-

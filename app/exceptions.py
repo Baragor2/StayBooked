@@ -46,3 +46,13 @@ class RoomCannotBeBookedException(BookingException):
 class BookingIsNotPresentException(BookingException):
     status_code = status.HTTP_409_CONFLICT
     detail = "Бронирование отсутствует"
+
+
+class DateToLessThenDateFromException(BookingException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Дата выезда меньше даты заезда"
+
+
+class BookingTimeIsMoreThanThirtyDaysException(BookingException):
+    status_code = status.HTTP_400_BAD_REQUEST
+    detail = "Время бронирования больше 30 дней"

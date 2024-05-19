@@ -5,7 +5,7 @@ from sqlalchemy import select, and_, insert, delete
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
-from app.exceptions import BookingIsNotPresentException
+from app.exceptions import BookingIsNotPresentException, RoomCannotBeBookedException
 from app.hotels.rooms.models import Rooms
 from app.hotels.rooms.dao import RoomDAO
 
@@ -47,7 +47,7 @@ class BookingDAO(BaseDAO):
                 await session.commit()
                 return new_booking.mappings().one()
             else:
-                return None
+                raise RoomCannotBeBookedException
 
     @classmethod
     async def get_external_bookings(cls, **filter_by):
