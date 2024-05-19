@@ -22,6 +22,7 @@ class SBookingsShort(BaseModel):
 
 
 class SExtendedBookings(BaseModel):
+    id: int
     room_id: int
     user_id: int
     date_from: date

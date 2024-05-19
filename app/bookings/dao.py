@@ -52,13 +52,14 @@ class BookingDAO(BaseDAO):
     @classmethod
     async def get_external_bookings(cls, **filter_by):
         async with async_session_maker() as session:
-            extended_bookings = select(Bookings.room_id, Bookings.user_id,
-                                       Bookings.date_from, Bookings.date_to,
-                                       Bookings.total_cost, Bookings.total_days,
-                                       Rooms.price, Rooms.image_id,
-                                       Rooms.name, Rooms.description,
-                                       Rooms.services,
-                                       ).join(Rooms, Bookings.room_id == Rooms.id).cte("extended_bookings")
+            extended_bookings = select(
+                Bookings.id, Bookings.room_id,
+                Bookings.user_id, Bookings.date_from,
+                Bookings.date_to, Bookings.total_cost,
+                Bookings.total_days, Rooms.price,
+                Rooms.image_id, Rooms.name,
+                Rooms.description, Rooms.services,
+            ).join(Rooms, Bookings.room_id == Rooms.id).cte("extended_bookings")
 
             get_extended_bookings_for_user = select(extended_bookings).filter_by(**filter_by)
 
